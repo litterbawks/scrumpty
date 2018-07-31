@@ -7,6 +7,8 @@ import Tasks from "./Tasks.jsx";
 import api from "../api";
 import AddTaskButton from "./AddTaskButton.jsx";
 import AddUserToSprintForm from "./AddUserToSprintForm.jsx";
+import ChatWindow from "./ChatWindow.jsx";
+
 
 class Sprint extends React.Component {
   constructor(props) {
@@ -96,6 +98,7 @@ class Sprint extends React.Component {
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
           />
+          <ChatWindow />
         </Drawer>
         <Paper style={{ marginRight: "13.5em", marginLeft: "1em" }}>
           <Grid
