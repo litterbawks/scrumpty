@@ -74,8 +74,8 @@ const self = (module.exports = {
       .select())
     .then(blockers => blockers[0]),
 
-  addUser: (username, password) => knex('users')
-    .insert({ username, password })
+  addUser: (username, password, firstname) => knex('users')
+    .insert({ username, password, firstname })
     .then(id => knex('users')
       .where('id', id)
       .select())

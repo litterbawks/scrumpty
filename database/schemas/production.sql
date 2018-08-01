@@ -20,7 +20,7 @@
 -- 
 -- ---
 
-USE heroku_8a8425fd66d074c;
+-- USE heroku_8a8425fd66d074c;
 
 
 DROP TABLE IF EXISTS `blockers`;
@@ -65,6 +65,7 @@ CREATE TABLE `users` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `username` TEXT NOT NULL,
   `password` TEXT NOT NULL,
+  `firstname` TEXT NOT NULL,
   PRIMARY KEY (`id`)
 );
 

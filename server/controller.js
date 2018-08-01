@@ -67,14 +67,15 @@ const self = (module.exports = {
       .then(() => db.updateBlocker(newVersion));
   },
 
-  addUser: ({ username, password }) => {
+  addUser: ({ username, password, firstname }) => {
     if (!password || password === '') throw 'No Password Given';
     if (!username || username === '') throw 'No Username Given';
+    if (!firstname || firstname === '') throw 'No First Name Given';
     return db.userExists(username).then((exists) => {
       if (exists) {
         throw 'User already exists';
       }
-      return db.addUser(username, password);
+      return db.addUser(username, password, firstname);
     });
   },
   getUsers: () => db.getUsers(),

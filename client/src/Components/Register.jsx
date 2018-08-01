@@ -7,9 +7,10 @@ const api = require('../api');
 class Register extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { username: '', password: '', errormessage: '' };
+    this.state = { username: '', password: '', errormessage: '', firstname: '' };
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateUser = props.updateUser;
     this.history = props.history;
@@ -17,9 +18,9 @@ class Register extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { username, password } = this.state;
-
-    api.addUser(username, password).then((res) => {
+    const { username, password, firstname } = this.state;
+    api.addUser(username, password, firstname).then((res) => {
+      console.log('elyse',res);
       if (!res) {
         this.setState({ errormessage: 'User Already Exists' });
         setTimeout(() => {
@@ -44,6 +45,11 @@ class Register extends React.Component {
     this.setState({ password: e.target.value });
   }
 
+  handleFirstNameChange(e) {
+    e.preventDefault();
+    this.setState({ firstname: e.target.value });
+  }
+
 
   render() {
     return (
@@ -55,6 +61,9 @@ class Register extends React.Component {
           </div>
           <div>
             <TextField required type="password" id="password" label="Password" value={this.state.password} margin="normal" onChange={this.handlePasswordChange} />
+          </div>
+          <div>
+            <TextField required id="firstname" label="Firstname" value={this.state.firstname} margin="normal" onChange={this.handleFirstNameChange} />
           </div>
           <div id="registerformmessage" style={{ height: '20px' }}>
             {this.state.errormessage}
