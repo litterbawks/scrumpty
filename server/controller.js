@@ -67,15 +67,19 @@ const self = (module.exports = {
       .then(() => db.updateBlocker(newVersion));
   },
 
-  addUser: ({ username, password, firstname }) => {
+  addUser: ({ username, password, firstname, lastname, preferred, email, phonenumber }) => {
     if (!password || password === '') throw 'No Password Given';
     if (!username || username === '') throw 'No Username Given';
     if (!firstname || firstname === '') throw 'No First Name Given';
+    if (!lastname || lastname === '') throw 'No Last Name Given';
+    if (!preferred || preferred === '') throw 'No Preferred Name Given';
+    if (!email || email === '') throw 'No Email Given';
+    if (!phonenumber || phonenumber === '') throw 'No Phone Number Given';
     return db.userExists(username).then((exists) => {
       if (exists) {
         throw 'User already exists';
       }
-      return db.addUser(username, password, firstname);
+      return db.addUser(username, password, firstname, lastname, preferred, email, phonenumber);
     });
   },
   getUsers: () => db.getUsers(),

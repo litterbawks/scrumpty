@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
   console.log('adding user');
   bcrypt.hash(req.body.password, 10)
     .then((hash) => {
-      controller.addUser({ username: req.body.username, password: hash, firstname: req.body.firstname })
+      controller.addUser({ username: req.body.username, password: hash, firstname: req.body.firstname, lastname: req.body.lastname, preferred: req.body.preferred, email: req.body.email, phonenumber: req.body.phonenumber })
         .then((result) => {
           console.log('success');
           passport.authenticate('local', (err, user, info) => {
@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
                 console.log(err);
                 return next(err);
               }
-              return res.send({ id: user.id, username: user.username, firstname: user.firstname });
+              return res.send({ id: user.id, username: user.username, firstname: user.firstname, lastname: user.lastname, preferred: user.preferred, email: user.email, phonenumber: user.phonenumber });
             });
           })(req, res);
         })
