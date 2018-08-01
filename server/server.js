@@ -12,7 +12,7 @@ const graphQLHTTP = require('express-graphql');
 const schema = require('./graphql/graphqlSchema');
 const logout = require('./routes/logout');
 const port = process.env.PORT || 1337;
-
+// const chat = require('./chat');
 
 // SETUP
 const app = express();
@@ -21,6 +21,36 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+// SOCKET.IO SETUP FOR CHAT
+// const http = require('http').Server(app);
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const chatPort = process.env.chatPORT || 1338
+
+const messages = [];
+
+io.on('connection', (client) => {
+  console.log('a user connected to chat');
+
+  client.on('message', (message) => {
+    console.log('message received handler fired');
+    console.log('message: ', message);
+    messages.push(message);
+    // client.emit('emitMessage', messages[messages.length - 1]);
+    io.emit('newMessage', message);
+  });
+
+  client.on('disconnect', () => {
+    console.log('a user disconnected');
+  });
+});
+  
+io.listen(chatPort, () => {
+  console.log('now listening on chatPort ', chatPort);
+});
+
+
 
 // ENDPOINTS
 app.use('/tasks', tasks);
