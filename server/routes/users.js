@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const controller = require('../controller');
 
 router.post('/', (req, res) => {
