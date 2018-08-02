@@ -33,12 +33,15 @@ const messages = [];
 io.on('connection', (client) => {
   console.log('a user connected to chat');
 
+  let chatroom;
   let chatroomName;
 
   client.on('sprint_id', (sprint_id) => {
     console.log('===============================================');
     console.log(sprint_id);
     chatroomName = sprint_id;
+    // chatroom = io.of(`/${sprint_id}`);
+    client.join(sprint_id);
   })
 
   client.on('message', (message) => {
@@ -46,7 +49,7 @@ io.on('connection', (client) => {
     console.log('message: ', message);
     messages.push(message);
     // client.emit('emitMessage', messages[messages.length - 1]);
-    io.emit('newMessage', message);
+    io.in(chatroomName).emit('newMessage', message);
   });
 
   client.on('disconnect', () => {
