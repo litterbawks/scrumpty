@@ -79,8 +79,8 @@ module.exports = {
         return false;
       }),
 
-  addUser: (username, password) => axios
-      .post('/users', { username, password })
+  addUser: (username, password, firstname, lastname, preferred, email, phonenumber) => axios
+      .post('/users', { username, password, firstname, lastname, preferred, email, phonenumber })
       .then(resp => resp.data)
       .catch((err) => {
         console.log(err);

@@ -1,5 +1,0 @@
-PORT=1337
-DBUSERNAME=student
-DBPASSWORD=student
-DBHOST=localhost
-DBNAME=test
