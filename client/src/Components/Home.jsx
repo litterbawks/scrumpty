@@ -16,7 +16,7 @@ const Home = ({ user }) => {
         Welcome,
         <span style={{ color: 'grey' }}>
           {' '}
-          {user.username}
+          {user.preferred}
         </span>
         .
         <br />

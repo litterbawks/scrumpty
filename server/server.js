@@ -41,7 +41,7 @@ app.get('/test', (req, res) => {
 app.get('/verify', (req, res) => {
   if (req.user) {
     console.log('user is verified');
-    res.send({ id: req.user.id, username: req.user.username });
+    res.send({ id: req.user.id, username: req.user.username, preferred: req.user.preferred });
   } else {
     console.log('user is not verified');
     res.send(false);
