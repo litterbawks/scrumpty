@@ -11,7 +11,7 @@ const sprints = require('./routes/sprints');
 const graphQLHTTP = require('express-graphql');
 const schema = require('./graphql/graphqlSchema');
 const logout = require('./routes/logout');
-const port = process.env.PORT || 1337;
+const port =  1337;
 
 
 // SETUP

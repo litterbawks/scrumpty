@@ -34,8 +34,8 @@ class AddTaskButton extends React.Component {
 
   handleClick(e) {
     if (!this.state.editing) {
-      this.setState({ editing: true });
-    }
+      this.setState({ editing : true });
+    } 
   }
 
 
