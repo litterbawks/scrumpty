@@ -33,6 +33,14 @@ const messages = [];
 io.on('connection', (client) => {
   console.log('a user connected to chat');
 
+  let chatroomName;
+
+  client.on('sprint_id', (sprint_id) => {
+    console.log('===============================================');
+    console.log(sprint_id);
+    chatroomName = sprint_id;
+  })
+
   client.on('message', (message) => {
     console.log('message received handler fired');
     console.log('message: ', message);

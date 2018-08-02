@@ -1,6 +1,5 @@
 import React from "react";
-import openSocket from "socket.io-client";
-const socket = openSocket('http://localhost:1338');
+import io from "socket.io-client";
 //import io from "../../../server/app.js";
 
 class ChatWindow extends React.Component {
@@ -8,20 +7,15 @@ class ChatWindow extends React.Component {
     super(props);
     this.state = {
       messages: [],
-      currentMessage: ''
-
+      currentMessage: '',
+      user: props.user,
+      isOwner: props.isOwner,
+      sprint_id: props.sprint_id
     };
     
-    const { user, isOwner, sprint_id } = props;
+    this.socket = io('http://localhost:1338');
     
-    // function to listen to sockets
-    // chatSocket((err, message => {
-      
-    // subscribeToTimer((err, timeStamp) => this.setState({
-      //   timestamp
-      // }));
-    
-    socket.on('newMessage', message => {
+    this.socket.on('newMessage', message => {
       const messageArray = this.state.messages;
       messageArray.push(message);
       this.setState({
@@ -33,20 +27,16 @@ class ChatWindow extends React.Component {
     
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.emitSprintId = this.emitSprintId.bind(this);
+
+  }
+  
+  componentDidMount() {
+    this.emitSprintId();
   }
 
-      // componentWillUpdate(nextProps) {
-        // componentWillMount() {
-          
-
-          // onSubmit(e) {
-            //   e.preventDefault();
-            
-            
-            // }
-
   // newMessage((err, message) => {
-  //   socket.on('newMessage', message)
+  //   this.socket.on('newMessage', message)
 
   //   const messageArray = this.state.messages;
   //   messageArray.push(message);
@@ -55,14 +45,18 @@ class ChatWindow extends React.Component {
   //   })
   // });
             
+  emitSprintId() {
+    this.socket.emit('sprint_id', this.state.sprint_id);
+  }
+
   handleChange(event) {
     this.setState({ currentMessage: event.target.value });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    if (this.state.message !== '') {
-      socket.emit('message', this.state.currentMessage);
+    if (this.state.currentMessage !== '') {
+      this.socket.emit('message', this.state.currentMessage);
       this.setState({
         currentMessage: ''
       })
@@ -79,8 +73,9 @@ class ChatWindow extends React.Component {
       >
         CHAT WINDOW
         <div>
-          {this.state.messages.map((message, index) => 
-            <div key={index}>{message}</div>
+          {this.state.messages.map((message, index) => {
+            return (<div key={index}>{message}</div>)
+          }
           )}
         </div>
         <form onSubmit={this.handleSubmit} >
