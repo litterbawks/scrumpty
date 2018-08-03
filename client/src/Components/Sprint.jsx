@@ -7,6 +7,8 @@ import Tasks from "./Tasks.jsx";
 import api from "../api";
 import AddTaskButton from "./AddTaskButton.jsx";
 import AddUserToSprintForm from "./AddUserToSprintForm.jsx";
+import ChatWindow from "./ChatWindow.jsx";
+
 
 class Sprint extends React.Component {
   constructor(props) {
@@ -92,6 +94,11 @@ class Sprint extends React.Component {
       <div onClick={this.closeEdits}>
         <Drawer variant="permanent" anchor="right">
           <AddUserToSprintForm
+            user={this.props.user}
+            isOwner={this.state.isOwner}
+            sprint_id={this.state.sprint_id}
+          />
+          <ChatWindow 
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
