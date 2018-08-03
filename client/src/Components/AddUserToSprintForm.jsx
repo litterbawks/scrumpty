@@ -92,7 +92,7 @@ class AddUserToSprintForm extends React.Component {
           margin="normal"
           onChange={this.userChange}
         />
-        <Button type="submit">Add Team Member</Button>
+        <Button type="submit">Add Team Member to Sprint</Button>
       </div>
     );
 
