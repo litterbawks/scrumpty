@@ -24,42 +24,6 @@ app.use(passport.session());
 
 // SOCKET.IO SETUP FOR CHAT
 // const http = require('http').Server(app);
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-const chatPort = process.env.chatPORT || 1338
-
-const messages = [];
-
-io.on('connection', (client) => {
-  console.log('a user connected to chat');
-
-  let chatroom;
-  let chatroomName;
-
-  client.on('sprint_id', (sprint_id) => {
-    console.log('===============================================');
-    console.log(sprint_id);
-    chatroomName = sprint_id;
-    // chatroom = io.of(`/${sprint_id}`);
-    client.join(sprint_id);
-  })
-
-  client.on('message', (message) => {
-    console.log('message received handler fired');
-    console.log('message: ', message);
-    messages.push(message);
-    // client.emit('emitMessage', messages[messages.length - 1]);
-    io.in(chatroomName).emit('newMessage', message);
-  });
-
-  client.on('disconnect', () => {
-    console.log('a user disconnected');
-  });
-});
-  
-io.listen(chatPort, () => {
-  console.log('now listening on chatPort ', chatPort);
-});
 
 
 
@@ -101,4 +65,33 @@ app.get('*', (req, res) => {
   res.redirect('/');
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// IMPLEMENT WEBSOCKET
+const io = require('socket.io')(server);
+
+const messages = {}; // IMPLEMENT REDIS TO REPLACE
+
+io.on('connection', (client) => {
+  console.log('a user connected to chat');
+
+  let chatroomName;
+
+  client.on('sprint_id', (sprint_id) => {
+    chatroomName = sprint_id;
+    if (!messages[sprint_id]) { messages[sprint_id] = [] };
+    client.join(sprint_id);
+    io.in(chatroomName).emit('messages', messages[chatroomName]);
+  })
+
+  client.on('message', (message) => {
+    console.log('message received handler fired');
+    console.log('message: ', message);
+    messages[chatroomName].push(message);
+    io.in(chatroomName).emit('messages', messages[chatroomName]);
+  });
+
+  client.on('disconnect', () => {
+    console.log('a user disconnected');
+  });
+});

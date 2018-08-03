@@ -13,16 +13,13 @@ class ChatWindow extends React.Component {
       sprint_id: props.sprint_id
     };
     
-    this.socket = io('http://localhost:1338');
+    this.socket = io();
     
-    this.socket.on('newMessage', message => {
-      const messageArray = this.state.messages;
-      messageArray.push(message);
+    this.socket.on('messages', allMessages => {
       this.setState({
-        messages: messageArray
+        messages: allMessages
       })
-      console.log('new message added');
-      console.log(this.state.messages);
+      console.log('messages received');
     })
     
     this.handleChange = this.handleChange.bind(this);
@@ -34,16 +31,6 @@ class ChatWindow extends React.Component {
   componentDidMount() {
     this.emitSprintId();
   }
-
-  // newMessage((err, message) => {
-  //   this.socket.on('newMessage', message)
-
-  //   const messageArray = this.state.messages;
-  //   messageArray.push(message);
-  //   this.setState({
-  //     messages: messageArray
-  //   })
-  // });
             
   emitSprintId() {
     this.socket.emit('sprint_id', this.state.sprint_id);
