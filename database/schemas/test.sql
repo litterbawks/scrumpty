@@ -66,7 +66,11 @@ CREATE TABLE `users` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `username` TEXT NOT NULL,
   `password` TEXT NOT NULL,
-  `owner_id` INTEGER NOT NULL,
+  `firstname` TEXT NOT NULL,
+  `lastname` TEXT NOT NULL,
+  `preferred` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
+  `phonenumber` TEXT NOT NULL,
   PRIMARY KEY (`id`)
 );
 

@@ -2,7 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+// const actualPassport = require('passport');
 const { passport } = require('./passport');
+require('./passport').gitHubStrategy(passport)
 const tasks = require('./routes/tasks');
 const blockers = require('./routes/blockers');
 const users = require('./routes/users');
@@ -80,14 +82,16 @@ app.get('/test', (req, res) => {
 
 // sends a user object to the requester if one exists
 app.get('/verify', (req, res) => {
+  console.log('req user', req.user)
   if (req.user) {
     console.log('user is verified');
-    res.send({ id: req.user.id, username: req.user.username });
+    res.send({ id: req.user.id, username: req.user.username, preferred: req.user.preferred });
   } else {
     console.log('user is not verified');
     res.send(false);
   }
 });
+
 
 //graphql
 app.use('/graphql', graphQLHTTP({

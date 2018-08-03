@@ -8,7 +8,8 @@ const {
     GraphQLID
 } = require('graphql');
 const controller = require('../controller');
-const bcryptjs = require('bcryptjs');
+
+const bcrypt = require('bcryptjs');
 
 const TaskType = new GraphQLObjectType({
     name : 'Task',

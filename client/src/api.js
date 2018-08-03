@@ -95,6 +95,18 @@ module.exports = {
         return false;
       }),
 
+  // loginGitHub: () => {
+  //     console.log('inside api file'); 
+  //     axios
+  //     .get('/login/auth/github/callback')
+  //     .then(resp => {
+  //       console.log('resp', resp)
+  //       resp.data})
+  //     .catch(err => {
+  //       console.log(err);
+  //       return false;
+  //     })},  
+
   logout: () => axios
       .get('/logout')
       .then(resp => resp.data)

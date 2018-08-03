@@ -2,7 +2,9 @@ const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const bcryptjs = require('bcryptjs');
+
+const bcrypt = require('bcryptjs');
+
 const controller = require('../controller');
 
 router.post('/', (req, res) => {
@@ -93,5 +95,16 @@ router.get('/sprint', (req, res) => {
       return res.send(false);
     });
 });
+
+router.get('/auth/github',
+  passport.authenticate('github'));
+
+router.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log('inside server authentication for github')
+    res.redirect('/');
+  });
 
 module.exports = router;

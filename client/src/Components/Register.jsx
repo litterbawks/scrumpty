@@ -109,7 +109,9 @@ Register
             </Button>
           </div>
         </form>
-
+        <div margin="normal">
+        <a href="http://localhost:1337/users/auth/github/">Login With GitHub</a>
+        </div>
 
       </div>
     );
