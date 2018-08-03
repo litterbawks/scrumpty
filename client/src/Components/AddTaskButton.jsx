@@ -57,6 +57,9 @@ class AddTaskButton extends React.Component {
         <div>
           <Card onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut} onClick={this.handleClick} style={style}>
             <AddTaskForm sprint_id={this.props.sprint_id} closeTask={this.closeTask} reload={this.props.reload} />
+            <Button onClick={this.closeTask}>
+              Cancel
+            </Button>
           </Card>
         </div>
       );
