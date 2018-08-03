@@ -2,7 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const actualPassport = require('passport');
 const { passport } = require('./passport');
+require('./passport').gitHubStrategy(actualPassport)
 const tasks = require('./routes/tasks');
 const blockers = require('./routes/blockers');
 const users = require('./routes/users');
@@ -47,6 +49,7 @@ app.get('/verify', (req, res) => {
     res.send(false);
   }
 });
+
 
 //graphql
 app.use('/graphql', graphQLHTTP({
