@@ -109,9 +109,11 @@ Register
             </Button>
           </div>
         </form>
-        <div margin="normal">
+        OR
+        <br />
+        <Button>
         <a href="http://localhost:1337/users/auth/github/">Login With GitHub</a>
-        </div>
+        </Button>
 
       </div>
     );
