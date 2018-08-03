@@ -44,6 +44,7 @@ class EditTaskForm extends React.Component {
     this.etaChange = this.etaChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   onDelete(e) {
@@ -101,6 +102,10 @@ class EditTaskForm extends React.Component {
     this.setState({ eta: e.target.value });
   }
 
+  onCancel(e) {
+    this.props.closeTask();
+  }
+
   render() {
     return (
       <div>
@@ -140,6 +145,9 @@ class EditTaskForm extends React.Component {
             <div style={{ textAlign: 'center' }}>
               <Button type="submit">
                 Save
+              </Button>
+              <Button onClick={this.onCancel}>
+                Cancel
               </Button>
               <Button onClick={this.onDelete}>
                 Delete Task
