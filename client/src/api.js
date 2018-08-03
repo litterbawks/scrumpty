@@ -1,8 +1,6 @@
 const axios = require('axios');
 
-
 module.exports = {
-  
   addUserToSprint: ({ username, sprint_id }) => axios
       .put('/sprints/addUser', { username, sprint_id })
       .then(result => result.data)
@@ -28,8 +26,8 @@ module.exports = {
       }),
 
   addTask: ({
-  title, description, difficulty, priority_code, sprint_id 
-  }) => axios
+ title, description, difficulty, priority_code, sprint_id 
+}) => axios
       .post('/tasks', { title, description, sprint_id })
       .then(result => result.data)
       .catch((err) => {

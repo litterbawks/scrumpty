@@ -11,7 +11,7 @@ passport.use(
         if (!user) {
           return done('User does not exist', null);
         }
-        if (bcryptjs.compareSync(password, user.password)) {
+        if (bcrypt.compareSync(password, user.password)) {
           return done(null, user);
         }
         return done('Invalid Credentials', null);

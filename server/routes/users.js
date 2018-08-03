@@ -2,14 +2,12 @@ const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-
 const bcrypt = require('bcryptjs');
-
 const controller = require('../controller');
 
 router.post('/', (req, res) => {
   console.log('adding user');
-  bcryptjs.hash(req.body.password, 10)
+  bcrypt.hash(req.body.password, 10)
     .then((hash) => {
       controller.addUser({ username: req.body.username, password: hash, firstname: req.body.firstname, lastname: req.body.lastname, preferred: req.body.preferred, email: req.body.email, phonenumber: req.body.phonenumber })
         .then((result) => {
@@ -64,7 +62,7 @@ router.put('/', (req, res, next) => {
       return res.send(false);
     }
     // username, password was correct. now update based on newpassword.
-    bcryptjs.hash(req.body.newpassword, 10)
+    bcrypt.hash(req.body.newpassword, 10)
       .then(hash => controller.updateUser({ username: req.body.username, password: hash }))
       .then(user => res.send({ id: user.id, username: user.username }))
       .catch((err) => {
