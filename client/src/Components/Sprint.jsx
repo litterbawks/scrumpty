@@ -101,10 +101,10 @@ class Sprint extends React.Component {
             style={{
               border: '1px solid black'
             }}
-            reload={this.reload}
-          />
+            />
           <ChatWindow
             
+            reload={this.reload}
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}

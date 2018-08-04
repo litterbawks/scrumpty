@@ -23,7 +23,6 @@ class ChatWindow extends React.Component {
       this.setState({
         messages: allMessages
       })
-      console.log('messages received');
     })
     
     this.handleChange = this.handleChange.bind(this);
@@ -33,8 +32,18 @@ class ChatWindow extends React.Component {
   }
   
   componentDidMount() {
+    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
     console.log('chat window mounted');
     this.emitSprintId();
+    setInterval(() => {
+      console.log('?????????????????????????????????????????????????????????????');
+      if (this.props.sprint_id !== this.state.sprint_id) {
+        this.setState({
+          sprint_id: this.props.sprint_id
+        });
+        this.emitSprintId();
+      }
+    }, 1000);
   }
             
   emitSprintId() {
@@ -61,28 +70,33 @@ class ChatWindow extends React.Component {
   }
 
   render() {
-    
+
     return (
       <div className="chatWindow"
+        // forceupdate={this.props.sprint_id}
         style={{
           padding: "1.5em",
           border: "1px solid #f5799f",
           borderRadius: "5px",
           width: "250px",
           height: "24em",
-          float: "bottom"
+          float: "bottom",
         }}
       >
         <strong>Team Chat</strong>
-        <div> </div>
         <div 
           style={{
             margin: '10px 0px 10px 0px',
             border: '1px solid #D3D3D3',
             borderRadius: '5px',
-            height: '19em'
+            height: '19em',
+            overflowY: "auto",
+            display: "flex",
+            flexDirection: "column-reverse"
           }}
         >
+
+        <div>
           {this.state.messages.map((message, index) => {
             if (message.user === this.state.user.username) {
               return (
@@ -115,8 +129,9 @@ class ChatWindow extends React.Component {
                 <a>{message.text}</a>
               </div>
             )
-          }
-          )}
+          })}
+          </div>
+
         </div>
         <form onSubmit={this.handleSubmit} >
           <TextField
