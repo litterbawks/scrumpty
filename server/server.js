@@ -45,7 +45,16 @@ app.get('/verify', (req, res) => {
   console.log('req user', req.user)
   if (req.user) {
     console.log('user is verified');
-    res.send({ id: req.user.id, username: req.user.username, preferred: req.user.preferred });
+    res.send({ 
+      id: req.user.id,
+      username: req.user.username,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      preferred: req.user.preferred,
+      email: req.user.email,
+      phonenumber: req.user.phonenumber,
+      photo: req.user.photo
+    });
   } else {
     console.log('user is not verified');
     res.send(false);
@@ -79,8 +88,8 @@ io.on('connection', (client) => {
 
   client.on('sprint_id', (sprint_id) => {
     chatroomName = sprint_id;
-    if (!messages[sprint_id]) { messages[sprint_id] = [] };
-    client.join(sprint_id);
+    if (!messages[chatroomName]) { messages[chatroomName] = [] };
+    client.join(chatroomName);
     io.in(chatroomName).emit('messages', messages[chatroomName]);
   })
 

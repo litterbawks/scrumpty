@@ -83,7 +83,7 @@ class AddUserToSprintForm extends React.Component {
 
   render() {
     let interior = (
-      <div>
+      <div style={{textAlign: "center"}}>
         <TextField
           required
           id="user"
@@ -114,7 +114,9 @@ class AddUserToSprintForm extends React.Component {
     return (
       <div
         style={{
-          padding: "1.5em"
+          padding: "1.5em",
+          textAlign: 'center',
+          height: "20em"
         }}
       >
         <div>
@@ -124,7 +126,7 @@ class AddUserToSprintForm extends React.Component {
         <div>
           {this.state.users.map((user, i) => (
             <div key={i}>
-              {`${user.username}  `}
+              {`${user.username}`     }
               {this.props.isOwner &&
                 user.id !== this.props.user.id && (
                   <button
@@ -139,7 +141,14 @@ class AddUserToSprintForm extends React.Component {
           ))}
         </div>
         {this.props.isOwner && (
-          <form style={{ width: "150px" }} onSubmit={this.onSubmit}>
+          <form
+            style={{ 
+              width: "150px",
+              marginLeft: "auto",
+              marginRight: "auto"
+             }}
+            onSubmit={this.onSubmit}
+          >
             {interior}
           </form>
         )}

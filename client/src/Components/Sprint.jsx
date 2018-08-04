@@ -98,15 +98,20 @@ class Sprint extends React.Component {
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
+            style={{
+              border: '1px solid black'
+            }}
+            reload={this.reload}
           />
           <ChatWindow
+            
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
           />
 
         </Drawer>
-        <Paper style={{ marginRight: "13.5em", marginLeft: "1em" }}>
+        <Paper style={{ marginRight: "20em", marginLeft: "1em" }}>
           <Grid
             style={{ padding: "1em" }}
             container
