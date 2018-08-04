@@ -40,7 +40,6 @@ class AddUserToSprintForm extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    console.log('next props', nextProps);
     if (nextProps.sprint_id !== this.state.sprint_id) {
       this.setState({ sprint_id: nextProps.sprint_id, users: []}, () =>
         this.reload()
@@ -49,16 +48,8 @@ class AddUserToSprintForm extends React.Component {
   }
 
   findSprint(list) {
-    // console.log('list', list);
-    // console.log('sprint id', context.state.sprint_id);
-    // console.log('repo', list[3].repo);
-    console.log('this function is firing');
-    console.log('sprint id inside function', this.state.sprint_id);
     for (let i = 0; i < list.length; i++) {
-      console.log('list i id', list[i].id);
       if (list[i].id == this.state.sprint_id) {
-        // console.log('context', context);
-        console.log('repo', list[i].repo)
         this.setState({
           repo: list[i].repo
         })
