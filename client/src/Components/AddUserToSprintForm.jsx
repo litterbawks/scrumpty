@@ -123,10 +123,15 @@ class AddUserToSprintForm extends React.Component {
           <strong>Team Members</strong>
         </div>
         <hr />
-        <div>
+        <div 
+          style={{
+            height: '8em',
+            overflowY: "auto"
+          }}
+        >
           {this.state.users.map((user, i) => (
             <div key={i}>
-              {`${user.username}`     }
+              {`${user.username}`}
               {this.props.isOwner &&
                 user.id !== this.props.user.id && (
                   <button

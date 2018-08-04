@@ -18,8 +18,6 @@ router.post('/', (req, res, next) => {
             if (err) { 
                 console.log(err);
                 return next(err); }
-                console.log('===================================');
-                console.log(user);
             return res.send({
               id: user.id,
               username: user.username,

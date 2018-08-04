@@ -14,8 +14,6 @@ class ChatWindow extends React.Component {
       isOwner: props.isOwner,
       sprint_id: props.sprint_id
     };
-    // this.reload = props.reload;
-    // this.reload = this.reload.bind(this);
     
     this.socket = io();
     
@@ -32,11 +30,9 @@ class ChatWindow extends React.Component {
   }
   
   componentDidMount() {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
     console.log('chat window mounted');
     this.emitSprintId();
     setInterval(() => {
-      console.log('?????????????????????????????????????????????????????????????');
       if (this.props.sprint_id !== this.state.sprint_id) {
         this.setState({
           sprint_id: this.props.sprint_id
@@ -60,7 +56,6 @@ class ChatWindow extends React.Component {
       user: this.state.user.username,
       text: this.state.currentMessage
     }
-    // const message = [this.state.user, this.state.currentMessage]
     if (this.state.currentMessage !== '') {
       this.socket.emit('message', message);
       this.setState({
@@ -73,7 +68,6 @@ class ChatWindow extends React.Component {
 
     return (
       <div className="chatWindow"
-        // forceupdate={this.props.sprint_id}
         style={{
           padding: "1.5em",
           border: "1px solid #f5799f",
