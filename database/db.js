@@ -89,11 +89,13 @@ const self = (module.exports = {
     .where('username', username)
     .select()
     .first(),
+
   userHasPassword: (username, password) => knex('users')
     .where({ username, password })
     .select()
     .first(),
 
+    /////////////////////////////////////////////////////////////////////
   updateUser: (username, password) => knex('users')
     .where('username', username)
     .select()
@@ -105,11 +107,14 @@ const self = (module.exports = {
       .select())
     .then(users => users[0]),
 
+    ////////////////////////////////////////////////////////////////
   getUserByName: username => knex('users')
     .where('username', username)
     .select()
     .then(users => users[0]),
 
+
+////////////////////////////////////////////////////////////////////
   getUserById: id => knex('users')
     .where('id', id)
     .select()

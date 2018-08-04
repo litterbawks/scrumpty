@@ -11,6 +11,7 @@ const self = (module.exports = {
       .userCanAccessSprint(sprint_id, user.id)
       .then(() => db.addTask(title, description, sprint_id));
   },
+
   getTasks: (sprint_id, user) => {
     if (!user || !user.id) throw 'user not logged in';
 
@@ -54,6 +55,7 @@ const self = (module.exports = {
       .userCanAccessTask(task_id, user.id)
       .then(() => db.addBlocker(task_id, title, description, user.id));
   },
+
   getBlockers: (task_id) => {
     if (!task_id) throw 'No Test Id Given';
     return db.getBlockers(task_id);
@@ -82,6 +84,7 @@ const self = (module.exports = {
       return db.addUser(username, password, firstname, lastname, preferred, email, phonenumber);
     });
   },
+
   getUsers: () => db.getUsers(),
   // NOT NEEDED. USING PASSPORT NOW
   // loginCorrect: ({ username, password }) => {
@@ -94,6 +97,7 @@ const self = (module.exports = {
   updateUser: ({ username, password }) => db.updateUser(username, password),
 
   getUserById: id => db.getUserById(id).then(user => (user !== undefined ? user : null)),
+  
   getUserByName: username => db.getUserByName(username).then(user => (user !== undefined ? user : null)),
 
   isLoggedIn: (req, res, next) => {
