@@ -27,6 +27,7 @@ const self = (module.exports = {
   updateTask: ({
     id,
     title,
+    commit,
     description,
     user_id,
     status_code,
@@ -37,6 +38,7 @@ const self = (module.exports = {
     .where('id', id)
     .update({
       title,
+      commit,
       description,
       user_id,
       status_code,
