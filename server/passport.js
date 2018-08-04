@@ -11,7 +11,7 @@ passport.use(
         if (!user) {
           return done('User does not exist', null);
         }
-        if (bcryptjs.compareSync(password, user.password)) {
+        if (bcrypt.compareSync(password, user.password)) {
           return done(null, user);
         }
         return done('Invalid Credentials', null);
@@ -52,28 +52,32 @@ const gitHubStrategy = passport => {
     clientSecret: process.env.GITHUB_CLIENT_SECRET,
     callbackURL: "/users/auth/github/callback"
   },
-    function(accessToken, refreshToken, profile, done) {
-      console.log('profile photos', profile.photos[0].value)
-      const gitHubUserProfile = {
-        username: profile.username, 
-        password:'placeholder', 
-        firstname: profile.displayName, 
-        lastname: profile.displayName, 
-        preferred: profile.displayName, 
-        email: 'placeholder', 
-        phonenumber: 'placeholder',
-        photo: `${profile.photos[0].value}`
-      }
-      controller.addUser(gitHubUserProfile);
-      done(null, gitHubUserProfile);
+  function(accessToken, refreshToken, profile, done) {
+    // console.log('profile', profile);
+    controller.addUser({username: profile.username, password:'placeholder', firstname: profile.displayName, lastname: profile.displayName, preferred: profile.displayName, email: 'placeholder', phonenumber: 'placeholder'});
+    
+    done(null, {username: profile.username, password:'placeholder', firstname: profile.displayName, lastname: profile.displayName, preferred: profile.displayName, email: 'placeholder', phonenumber: 'placeholder'});
+    // return done('profile', profile);
   }
-
   ));
 
   passport.serializeUser((user, cb) => {
     console.log('serialize user', user);
     cb(null, user.username);
   });
+  
+  // passport.deserializeUser((username, cb) => {
+  //   // console.log('id', id);
+  //   controller.getUserByName(username).then((user) => {
+  //     if (!user) {
+  //       cb('Err During Deserialization');
+  //     } else {
+  //       cb(null, user);
+  //     }
+  //   });
+  // });
+
+
 }
 module.exports = { passport, gitHubStrategy };
 // module.exports = 

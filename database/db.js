@@ -74,10 +74,10 @@ const self = (module.exports = {
       .select())
     .then(blockers => blockers[0]),
 
-  addUser: (username, password, firstname, lastname, preferred, email, phonenumber, photo) => {
+  addUser: (username, password, firstname, lastname, preferred, email, phonenumber) => {
     console.log('inside db addUser function')
     knex('users')
-    .insert({ username, password, firstname, lastname, preferred, email, phonenumber, photo })
+    .insert({ username, password, firstname, lastname, preferred, email, phonenumber })
     .then(id => knex('users')
       .where('id', id)
       .select())
