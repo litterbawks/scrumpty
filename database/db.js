@@ -126,8 +126,8 @@ const self = (module.exports = {
     .select()
     .then(users => users[0]),
 
-  addSprint: (title, owner_id) => knex('sprints')
-    .insert({ title, owner_id })
+  addSprint: (title, owner_id, repo) => knex('sprints')
+    .insert({ title, owner_id, repo })
     .then(id => knex('sprints')
       .where('id', id)
       .select())

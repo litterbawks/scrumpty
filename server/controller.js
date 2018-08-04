@@ -109,11 +109,12 @@ const self = (module.exports = {
     }
   },
 
-  addSprint: (title, owner_id, username) => {
+  addSprint: (title, owner_id, username, repo) => {
     if (!title || title === '') throw 'No Title';
     if (!owner_id) throw 'No owner_id';
+    if (!repo) throw 'No repo';
 
-    return db.addSprint(title, owner_id).then((sprint) => {
+    return db.addSprint(title, owner_id, repo).then((sprint) => {
       console.log(sprint);
       const user_id = owner_id;
       const sprint_id = sprint.id;

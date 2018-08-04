@@ -9,19 +9,22 @@ class AddSprint extends React.Component {
     super(props);
     this.state = {
       title: '',
+      repo: '',
       status: 0, // display what when the menu is showing? 0 - not submitted, 1 - pending, 2 - success, 3 - failed
     };
 
     this.titleChange = this.titleChange.bind(this);
+    this.repoChange = this.repoChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(e) {
     e.preventDefault();
     const title = this.state.title;
+    const repo = this.state.repo;
     const description = 'In sprint add form form';
     this.setState({ status: 1 });
-    api.addSprint(title).then((res) => {
+    api.addSprint(title, repo).then((res) => {
       if (!res) {
         this.setState({ status: 3 }); return;
       }
@@ -36,14 +39,21 @@ class AddSprint extends React.Component {
     this.setState({ title: e.target.value });
   }
 
+  repoChange(e) {
+    e.preventDefault();
+    this.setState({ repo: e.target.value });
+  }
+
   render() {
     let interior = (
       <div>
         <TextField required id="title" label="Sprint Name" defaultValue={this.state.title} margin="normal" onChange={this.titleChange} />
+        <br />
+        <TextField required id="repo" label="Link to GitHub Repo" defaultValue={this.state.repo} margin="normal" onChange={this.repoChange} />
+        <br />
         <Button type="submit">
         Save New Sprint
         </Button>
-
       </div>
     );
 
@@ -61,7 +71,7 @@ Success!
         </div>
       );
       setTimeout(() => {
-        this.setState({ status: 0, title: '' });
+        this.setState({ status: 0, title: '', repo: '' });
       }, 1000);
     }
     if (this.state.status === 3) {

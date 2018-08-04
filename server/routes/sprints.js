@@ -7,9 +7,10 @@ const router = express.Router();
 router.post('/', (req, res) => {
   console.log('adding sprint');
   const title = req.body.title;
+  const repo = req.body.repo;
   const owner_id = req.user.id;
   const username = req.user.username;
-  controller.addSprint(title, owner_id, username)
+  controller.addSprint(title, owner_id, username, repo)
     .then((result) => { console.log('success'); return res.send(result); })
     .catch((err) => { console.log(err); return res.send(false); });
 });
