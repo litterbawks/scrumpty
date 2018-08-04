@@ -66,6 +66,10 @@ CREATE TABLE `users` (
   `username` TEXT NOT NULL,
   `password` TEXT NOT NULL,
   `firstname` TEXT NOT NULL,
+  `lastname` TEXT NOT NULL,
+  `preferred` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
+  `phonenumber` TEXT NOT NULL,
   PRIMARY KEY (`id`)
 );
 

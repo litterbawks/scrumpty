@@ -2,12 +2,12 @@ const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 const controller = require('../controller');
 
 router.post('/', (req, res) => {
   console.log('adding user');
-  bcryptjs.hash(req.body.password, 10)
+  bcrypt.hash(req.body.password, 10)
     .then((hash) => {
       controller.addUser({ username: req.body.username, password: hash, firstname: req.body.firstname, lastname: req.body.lastname, preferred: req.body.preferred, email: req.body.email, phonenumber: req.body.phonenumber })
         .then((result) => {
@@ -62,7 +62,7 @@ router.put('/', (req, res, next) => {
       return res.send(false);
     }
     // username, password was correct. now update based on newpassword.
-    bcryptjs.hash(req.body.newpassword, 10)
+    bcrypt.hash(req.body.newpassword, 10)
       .then(hash => controller.updateUser({ username: req.body.username, password: hash }))
       .then(user => res.send({ id: user.id, username: user.username }))
       .catch((err) => {
@@ -93,5 +93,39 @@ router.get('/sprint', (req, res) => {
       return res.send(false);
     });
 });
+
+router.get('/auth/github',
+  passport.authenticate('github'));
+
+// router.get('/auth/github/callback', (req, res, next) => {
+//   console.log('inside users js file github auth route')
+//   const { query } = req;
+//   const { code } = query;
+
+//   if (!code) {
+//     return res.send({
+//       success: false,
+//        message: 'Invalid'
+//     });
+//   }
+
+//   router.post('https://github.com/login/oauth/access_token',) 
+//     .send({client_id: '5047505dd2266cb27acb', client_secret: '4c95c4ff99d6b548b98b4c5ffd556908b98593de', code: code })
+//     .then(result => {
+//       const data = result.body
+//       res.send(data); 
+//     })
+  
+//   console.log('code', code); 
+
+// })
+
+router.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log('inside server authentication for github')
+    res.redirect('/');
+  });
 
 module.exports = router;

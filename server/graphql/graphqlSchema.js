@@ -8,7 +8,7 @@ const {
     GraphQLID
 } = require('graphql');
 const controller = require('../controller');
-const bcryptjs = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const TaskType = new GraphQLObjectType({
     name : 'Task',
@@ -210,7 +210,7 @@ const Mutation = new GraphQLObjectType({
         //     },
         //     resolve(parent, args) {
         //         //add args to database
-        //         bcryptjs.hash(args.password, 10)
+        //         bcrypt.hash(args.password, 10)
         //             .then((hash) => {
         //                 controller.addUser({username: parent.username, password: hash})
         //                     .then((result) => {
