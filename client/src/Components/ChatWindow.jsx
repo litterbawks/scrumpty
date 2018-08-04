@@ -66,7 +66,7 @@ class ChatWindow extends React.Component {
       <div className="chatWindow"
         style={{
           padding: "1.5em",
-          border: "1px solid #C0C0C0",
+          border: "1px solid #f5799f",
           borderRadius: "5px",
           width: "250px",
           height: "24em",
@@ -84,17 +84,34 @@ class ChatWindow extends React.Component {
           }}
         >
           {this.state.messages.map((message, index) => {
+            if (message.user === this.state.user.username) {
+              return (
+                <div 
+                  key={index}
+                  style={{
+                    margin: '2px 2px 2px 2px',
+                    padding: '2px 2px 2px 2px',
+                    border: '1px solid #ed1a5c',
+                    borderRadius: '5px'
+                  }}
+                >
+                  <a style={{ color: '#ed1a5c' }}>{message.user}: </a>
+                  <a>{message.text}</a>
+                </div>
+              )
+            }
+
             return (
               <div 
                 key={index}
                 style={{
                   margin: '2px 2px 2px 2px',
                   padding: '2px 2px 2px 2px',
-                  border: '1px solid #ed1a5c',
+                  border: '1px solid #808080',
                   borderRadius: '5px'
                 }}
               >
-                <a style={{ color: '#ed1a5c' }}>{message.user}: </a>
+                <a style={{ color: '#808080' }}>{message.user}: </a>
                 <a>{message.text}</a>
               </div>
             )
