@@ -7,8 +7,9 @@ import Tasks from "./Tasks.jsx";
 import api from "../api";
 import AddTaskButton from "./AddTaskButton.jsx";
 import AddUserToSprintForm from "./AddUserToSprintForm.jsx";
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 import ChatWindow from "./ChatWindow.jsx";
-
 
 class Sprint extends React.Component {
   constructor(props) {
@@ -113,11 +114,12 @@ class Sprint extends React.Component {
             justify="center"
           >
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>Todo</strong>
               <Tasks
+                title={"Todo"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={notStarted}
+                loc = {0}
               />
               <Grid container style={{ textAlign: "center" }}>
                 <AddTaskButton
@@ -127,19 +129,21 @@ class Sprint extends React.Component {
               </Grid>
             </Grid>
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>In Progress</strong>
               <Tasks
+                title = {"In Progress"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={inProgress}
+                loc = {1}
               />
             </Grid>
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>Completed</strong>
               <Tasks
+                title={"Completed"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={complete}
+                loc = {2}
               />
             </Grid>
           </Grid>
@@ -149,4 +153,5 @@ class Sprint extends React.Component {
   }
 }
 
-export default Sprint;
+export default DragDropContext(HTML5Backend)(Sprint);
+

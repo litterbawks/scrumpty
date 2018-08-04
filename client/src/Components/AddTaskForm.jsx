@@ -91,6 +91,9 @@ class AddTaskForm extends React.Component {
               <Button type="submit">
                 Save
               </Button>
+              <Button onClick={this.props.closeTask}>
+                Cancel
+              </Button>
             </div>
           </form>
         </CardContent>

@@ -2,8 +2,10 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Blockers from './Blockers.jsx';
-import { PRIORITY_COLOR } from '../../../lib/shared';
+import { PRIORITY_COLOR, itemTypes } from '../../../lib/shared';
 import EditTaskForm from './EditTaskForm.jsx';
+import { DragSource } from 'react-dnd';
+import api from '../api.js'
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 
@@ -29,6 +31,40 @@ import EditIcon from '@material-ui/icons/Edit';
 //     </CardContent>
 //   </div>
 // );
+
+const cardSource = {
+  canDrag(props){
+    return true
+  },
+
+  beginDrag(props, monitor, component){
+    const item = { task : props.task };
+    console.log(item)
+    console.log(component)
+    return item
+  },
+
+  isDragging(props, monitor){
+    console.log('isDragging')
+    console.log(props)
+    console.log(monitor)
+    return monitor.getItem().task.status_code === props.status_code
+
+  },
+
+  endDrag(props, monitor, component){
+    const dropResult = monitor.getDropResult();
+    console.log(dropResult)
+  }
+
+}
+
+function collect(connect, monitor){
+  return {
+    connectDragSource : connect.dragSource(),
+    isDragging : monitor.isDragging()
+  }
+}
 
 class Task extends React.Component {
   constructor(props) {
@@ -65,6 +101,7 @@ class Task extends React.Component {
     const { task } = this.props;
     const borderColor = PRIORITY_COLOR[task.priority_code];
 
+    const { isDragging, connectDragSource } = this.props;
     const style = {
       borderRadius: '10px',
       margin: '10px',
@@ -86,7 +123,7 @@ class Task extends React.Component {
       );
     }
 
-    return (
+    return connectDragSource(
       <div>
         <Card
           onMouseOver={this.onMouseOver}
@@ -118,4 +155,4 @@ class Task extends React.Component {
   }
 }
 
-export default Task;
+export default DragSource(itemTypes.TASK, cardSource, collect)(Task);
