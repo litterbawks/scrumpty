@@ -143,7 +143,7 @@ class AddUserToSprintForm extends React.Component {
         <div>
           <strong>GitHub Repo</strong>
           <br />
-          {this.state.repo}
+          <a href={this.state.repo}>{this.state.repo}</a>
         </div>
         <div>
           <strong>Team Members</strong>
