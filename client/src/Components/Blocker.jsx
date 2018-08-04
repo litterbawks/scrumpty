@@ -55,7 +55,7 @@ class Blocker extends React.Component {
               <Button
                 id={this.state.blocker.id}
                 style={{
-                  position: 'relative', float: 'right', top: '-20px', height: '5px', padding: '0', display: 'inline-block',
+                  position: 'relative', float: 'right', top: '-25px', height: '5px', padding: '0', display: 'inline-block',
                 }}
                 onClick={this.onClickHandler}
               >
