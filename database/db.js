@@ -27,6 +27,7 @@ const self = (module.exports = {
   updateTask: ({
     id,
     title,
+    commit,
     description,
     user_id,
     status_code,
@@ -37,6 +38,7 @@ const self = (module.exports = {
     .where('id', id)
     .update({
       title,
+      commit,
       description,
       user_id,
       status_code,
@@ -126,8 +128,8 @@ const self = (module.exports = {
     .select()
     .then(users => users[0]),
 
-  addSprint: (title, owner_id) => knex('sprints')
-    .insert({ title, owner_id })
+  addSprint: (title, owner_id, repo) => knex('sprints')
+    .insert({ title, owner_id, repo })
     .then(id => knex('sprints')
       .where('id', id)
       .select())
@@ -144,8 +146,8 @@ const self = (module.exports = {
           .where({ id: result.sprint_id })
           .select()
           .first()
-          .then(({ id, title }) => {
-            solution.push({ id, title });
+          .then(({ id, title, repo }) => {
+            solution.push({ id, title, repo });
           }));
       });
 

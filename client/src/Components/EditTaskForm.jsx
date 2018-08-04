@@ -23,12 +23,13 @@ class EditTaskForm extends React.Component {
 
     const {
       id,
-      title, description, priority_code, difficulty, eta, status_code,
+      title, commit, description, priority_code, difficulty, eta, status_code,
     } = props.task;
 
     this.state = {
       id,
       title,
+      commit,
       description,
       priority_code,
       difficulty,
@@ -37,6 +38,7 @@ class EditTaskForm extends React.Component {
     };
 
     this.titleChange = this.titleChange.bind(this);
+    this.commitChange = this.commitChange.bind(this);
     this.descriptionChange = this.descriptionChange.bind(this);
     this.priorityChange = this.priorityChange.bind(this);
     this.difficultyChange = this.difficultyChange.bind(this);
@@ -58,12 +60,13 @@ class EditTaskForm extends React.Component {
 
     const {
       id,
-      title, description, priority_code, difficulty, status_code,
+      title, commit, description, priority_code, difficulty, status_code,
     } = this.state;
 
     api.updateTask({
       id,
       title,
+      commit,
       description,
       priority_code,
       difficulty,
@@ -75,6 +78,26 @@ class EditTaskForm extends React.Component {
   titleChange(e) {
     e.preventDefault();
     this.setState({ title: e.target.value });
+  }
+
+  commitChange(e) {
+    // e.preventDefault();
+    // this.setState({ commit: e.target.value });
+    const context = this;
+    const value = e.target.value;
+    return api.getSprints().then(list => {
+      for (let i = 0; i < list.length; i++) {
+        console.log('list', list);
+        console.log('sprint id inside function', context.props.sprint_id);
+        if (list[i].id == context.props.sprint_id) {
+          console.log('inside if statement')
+          console.log('e target value', value);
+          context.setState({
+            commit: `${list[i].repo.slice(0,list[i].repo.length-4)}/commit/${value}`
+          })
+        }
+      }
+    })
   }
 
   descriptionChange(e) {
@@ -113,6 +136,9 @@ class EditTaskForm extends React.Component {
           <form onSubmit={this.onSubmit}>
             <div>
               <TextField required id="title" label="Title" margin="normal" value={this.state.title} onChange={this.titleChange} />
+            </div>
+            <div>
+              <TextField required id="commit" label="Proof of Completion" margin="normal" defaultValue={this.state.commit} onChange={this.commitChange} />
             </div>
             <div>
               <TextField required id="description" label="Description" value={this.state.description} margin="normal" onChange={this.descriptionChange} />
