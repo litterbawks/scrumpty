@@ -20,10 +20,12 @@ class Sprint extends React.Component {
       isOwner: false,
       open: false,
       tasks: []
+      // repo: ''
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.reload = this.reload.bind(this);
+    // this.findSprint = this.findSprint.bind(this);
   }
 
   componentWillMount() {
@@ -31,6 +33,7 @@ class Sprint extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
+    console.log('match', nextProps.match.params)
     if (nextProps.match.params.id !== this.state.sprint_id) {
       this.setState({ sprint_id: nextProps.match.params.id }, () =>
         this.reload()
@@ -55,6 +58,7 @@ class Sprint extends React.Component {
       if (!res) {
         this.setState({ isOwner: false });
       } else {
+        console.log('res', res);
         this.setState({ isOwner: true });
       }
     });
@@ -62,12 +66,15 @@ class Sprint extends React.Component {
 
   handleClose(shouldReload = false) {
     this.setState({
-      open: false
+      open: false,
     });
     if (shouldReload) {
       this.reload();
     }
   }
+
+  
+    
 
   render() {
     const tasks = this.state.tasks;
@@ -91,6 +98,12 @@ class Sprint extends React.Component {
       fontWeight: 'lighter'
     };
 
+    const { user, sprintList } = this.props;
+    
+
+    // findSprint(sprintList);
+    // console.log('temp', temp);
+
     return (
       <div onClick={this.closeEdits}>
         <Drawer variant="permanent" anchor="right">
@@ -98,6 +111,7 @@ class Sprint extends React.Component {
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
+            sprintList={sprintList}
           />
           <ChatWindow
             user={this.props.user}
