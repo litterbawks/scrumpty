@@ -18,7 +18,16 @@ router.post('/', (req, res, next) => {
             if (err) { 
                 console.log(err);
                 return next(err); }
-            return res.send({id:user.id, username:user.username});
+            return res.send({
+              id: user.id,
+              username: user.username,
+              firstname: user.firstname,
+              lastname: user.lastname,
+              preferred: user.preferred,
+              email: user.email,
+              phonenumber: user.phonenumber,
+              photo: user.photo
+            });
         });
   })(req, res, next);
 });

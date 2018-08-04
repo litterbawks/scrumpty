@@ -12,7 +12,6 @@ import AddSprint from "./Components/AddSprint.jsx";
 import api from "./api";
 import UpdateUserForm from "./Components/UpdateUserForm.jsx";
 import { DragSource } from 'react-dnd';
-import Profile from "./Components/Profile.jsx";
 
 
 class App extends React.Component {
@@ -54,6 +53,8 @@ class App extends React.Component {
     api.verify().then(user => {
       if (user) {
         this.setState({ user });
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        console.log(user);
         this.updateSprintList();
       }
     });
@@ -113,7 +114,6 @@ class App extends React.Component {
               <Sprint user={this.state.user} {...routeprops} sprintList={this.state.sprintList}/>
             )}
           />
-
         </div>
       </Router>
     );

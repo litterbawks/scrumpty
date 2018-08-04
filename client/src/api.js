@@ -26,8 +26,8 @@ module.exports = {
       }),
 
   addTask: ({
- title, description, difficulty, priority_code, sprint_id 
-}) => axios
+    title, description, difficulty, priority_code, sprint_id 
+  }) => axios
       .post('/tasks', { title, description, sprint_id })
       .then(result => result.data)
       .catch((err) => {
@@ -117,7 +117,9 @@ module.exports = {
 
   verify: () => axios
       .get('/verify')
-      .then(resp => resp.data)
+      .then(resp => {
+        return resp.data
+      })
       .catch((err) => {
         console.log(err);
         return false;

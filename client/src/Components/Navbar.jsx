@@ -152,7 +152,7 @@ class Navbar extends Component {
 
                   </MenuItem>
               </Menu> */}
-              <Button
+              {/* <Button
                 color="inherit"
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
@@ -160,7 +160,7 @@ class Navbar extends Component {
                 label="graphql"
               >
                 GraphQL
-              </Button>
+              </Button> */}
               <Button
                 color="inherit"
                 aria-owns={anchorEl ? 'simple-menu' : null}
