@@ -11,6 +11,7 @@ const self = (module.exports = {
       .userCanAccessSprint(sprint_id, user.id)
       .then(() => db.addTask(title, description, sprint_id));
   },
+
   getTasks: (sprint_id, user) => {
     if (!user || !user.id) throw 'user not logged in';
 
@@ -54,6 +55,7 @@ const self = (module.exports = {
       .userCanAccessTask(task_id, user.id)
       .then(() => db.addBlocker(task_id, title, description, user.id));
   },
+
   getBlockers: (task_id) => {
     if (!task_id) throw 'No Test Id Given';
     return db.getBlockers(task_id);
@@ -67,16 +69,23 @@ const self = (module.exports = {
       .then(() => db.updateBlocker(newVersion));
   },
 
-  addUser: ({ username, password }) => {
-    if (!password || password === '') throw 'No Password Given';
+  addUser: ({ username, password, firstname, lastname, preferred, email, phonenumber }) => {
+    // console.log('email', email);
     if (!username || username === '') throw 'No Username Given';
+    if (!password || password === '') throw 'No Password Given';
+    if (!firstname || firstname === '') throw 'No First Name Given';
+    if (!lastname || lastname === '') throw 'No Last Name Given';
+    if (!preferred || preferred === '') throw 'No Preferred Name Given';
+    if (!email || email === '') throw 'No Email Given';
+    if (!phonenumber || phonenumber === '') throw 'No Phone Number Given';
     return db.userExists(username).then((exists) => {
-      if (exists) {
-        throw 'User already exists';
-      }
-      return db.addUser(username, password);
+      // if (exists) {
+      //   throw 'User already exists';
+      // }
+      return db.addUser(username, password, firstname, lastname, preferred, email, phonenumber);
     });
   },
+
   getUsers: () => db.getUsers(),
   // NOT NEEDED. USING PASSPORT NOW
   // loginCorrect: ({ username, password }) => {
@@ -89,6 +98,7 @@ const self = (module.exports = {
   updateUser: ({ username, password }) => db.updateUser(username, password),
 
   getUserById: id => db.getUserById(id).then(user => (user !== undefined ? user : null)),
+  
   getUserByName: username => db.getUserByName(username).then(user => (user !== undefined ? user : null)),
 
   isLoggedIn: (req, res, next) => {

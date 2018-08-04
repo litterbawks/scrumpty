@@ -44,6 +44,7 @@ class EditTaskForm extends React.Component {
     this.etaChange = this.etaChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   onDelete(e) {
@@ -101,6 +102,10 @@ class EditTaskForm extends React.Component {
     this.setState({ eta: e.target.value });
   }
 
+  onCancel(e) {
+    this.props.closeTask();
+  }
+
   render() {
     return (
       <div>
@@ -108,40 +113,45 @@ class EditTaskForm extends React.Component {
           <form onSubmit={this.onSubmit}>
             <div>
               <TextField required id="title" label="Title" margin="normal" value={this.state.title} onChange={this.titleChange} />
+            </div>
+            <div>
               <TextField required id="description" label="Description" value={this.state.description} margin="normal" onChange={this.descriptionChange} />
             </div>
 
             <TextField id="priority" select label="Priority" value={this.state.priority_code} onChange={this.priorityChange} margin="normal">
               {dropdownMenuOptions.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+                <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
-        ))}
+              ))}
             </TextField>
 
             <TextField id="difficulty" select label="Difficulty" value={this.state.difficulty} onChange={this.difficultyChange} margin="normal">
               {dropdownMenuOptions.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+                <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
-        ))}
+              ))}
             </TextField>
 
             <TextField id="status_code" select label="Status" value={this.state.status_code} onChange={this.statusChange} margin="normal">
               {statusCodeMenu.map(option => (
-          <MenuItem key={option.value} value={option.value}>
+                <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
-        ))}
+                ))}
             </TextField>
 
             <div style={{ textAlign: 'center' }}>
               <Button type="submit">
-Save
-        </Button>
+                Save
+              </Button>
+              <Button onClick={this.onCancel}>
+                Cancel
+              </Button>
               <Button onClick={this.onDelete}>
-Delete Task
-        </Button>
+                Delete Task
+              </Button>
             </div>
           </form>
           <AddBlockerForm task_id={this.state.id} />

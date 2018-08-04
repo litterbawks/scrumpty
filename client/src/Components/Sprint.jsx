@@ -9,9 +9,7 @@ import AddTaskButton from "./AddTaskButton.jsx";
 import AddUserToSprintForm from "./AddUserToSprintForm.jsx";
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
-
-
-
+import ChatWindow from "./ChatWindow.jsx";
 
 class Sprint extends React.Component {
   constructor(props) {
@@ -101,6 +99,12 @@ class Sprint extends React.Component {
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
           />
+          <ChatWindow
+            user={this.props.user}
+            isOwner={this.state.isOwner}
+            sprint_id={this.state.sprint_id}
+          />
+
         </Drawer>
         <Paper style={{ marginRight: "13.5em", marginLeft: "1em" }}>
           <Grid

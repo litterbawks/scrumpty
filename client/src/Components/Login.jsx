@@ -34,6 +34,24 @@ class Login extends React.Component {
       });
   }
 
+  // handleGitHubSubmit(e) {
+  //   e.preventDefault();
+  //   console.log('you are inside the handle github submit function');
+  //   api.loginGitHub()
+  //   .then(res => {
+  //     console.log('res', res);
+  //     if (!res) {
+  //       this.setState({ errormessage: 'Could not link to GitHub' });
+  //       setTimeout(() => {
+  //         this.setState({ errormessage: '' });
+  //       }, 2000);
+  //       return;
+  //       }
+  //       this.updateUser();
+  //       this.history.push('/');
+  //   });
+  // }
+
 
   handleUsernameChange(e) {
     e.preventDefault();
@@ -67,8 +85,11 @@ class Login extends React.Component {
             </Button>
           </div>
         </form>
-
-
+        OR
+        <br />
+        <Button>
+        <a href="http://localhost:1337/users/auth/github/">Login With GitHub</a>
+        </Button>
       </div>
     );
   }

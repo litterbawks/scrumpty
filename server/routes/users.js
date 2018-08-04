@@ -2,14 +2,14 @@ const express = require('express');
 const passport = require('passport');
 
 const router = express.Router();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const controller = require('../controller');
 
 router.post('/', (req, res) => {
   console.log('adding user');
   bcrypt.hash(req.body.password, 10)
     .then((hash) => {
-      controller.addUser({ username: req.body.username, password: hash })
+      controller.addUser({ username: req.body.username, password: hash, firstname: req.body.firstname, lastname: req.body.lastname, preferred: req.body.preferred, email: req.body.email, phonenumber: req.body.phonenumber })
         .then((result) => {
           console.log('success');
           passport.authenticate('local', (err, user, info) => {
@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
                 console.log(err);
                 return next(err);
               }
-              return res.send({ id: user.id, username: user.username });
+              return res.send({ id: user.id, username: user.username, firstname: user.firstname, lastname: user.lastname, preferred: user.preferred, email: user.email, phonenumber: user.phonenumber });
             });
           })(req, res);
         })
@@ -93,5 +93,39 @@ router.get('/sprint', (req, res) => {
       return res.send(false);
     });
 });
+
+router.get('/auth/github',
+  passport.authenticate('github'));
+
+// router.get('/auth/github/callback', (req, res, next) => {
+//   console.log('inside users js file github auth route')
+//   const { query } = req;
+//   const { code } = query;
+
+//   if (!code) {
+//     return res.send({
+//       success: false,
+//        message: 'Invalid'
+//     });
+//   }
+
+//   router.post('https://github.com/login/oauth/access_token',) 
+//     .send({client_id: '5047505dd2266cb27acb', client_secret: '4c95c4ff99d6b548b98b4c5ffd556908b98593de', code: code })
+//     .then(result => {
+//       const data = result.body
+//       res.send(data); 
+//     })
+  
+//   console.log('code', code); 
+
+// })
+
+router.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    console.log('inside server authentication for github')
+    res.redirect('/');
+  });
 
 module.exports = router;

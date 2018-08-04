@@ -6,21 +6,31 @@ import { PRIORITY_COLOR, itemTypes } from '../../../lib/shared';
 import EditTaskForm from './EditTaskForm.jsx';
 import { DragSource } from 'react-dnd';
 import api from '../api.js'
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 
+// // MOVED THE FOLLOWING TO THE RENDER PART OF TASK COMPONENT
+// const TaskInfo = ({ task, reload }) => (
+//   <div>
+//     <CardContent style={{ padding: '5px', textAlign: 'center' }}>
+//       <div sytle={{ position: 'fixed' }}>
+//         {task.title}
+//       </div>
 
-
-const TaskInfo = ({ task, reload }) => (
-  <div>
-    <CardContent style={{ padding: '5px', textAlign: 'center' }}>
-      <div>
-        {task.title}
-      </div>
-      <div>
-        <Blockers reload={reload} blockers={task.blockers} />
-      </div>
-    </CardContent>
-  </div>
-);
+//       {/* <Button size="small" position="absolute" right="0"> */}
+//       <Button size="small"
+//         style={{
+//           position: 'relative', float: 'right', top: '-20px',  padding: '0', display: 'inline-block'
+//         }}
+//       >
+//         <EditIcon />
+//       </Button>
+//       <div>
+//         <Blockers reload={reload} blockers={task.blockers} />
+//       </div>
+//     </CardContent>
+//   </div>
+// );
 
 const cardSource = {
   canDrag(props){
@@ -63,7 +73,7 @@ class Task extends React.Component {
     this.onMouseOut = this.onMouseOut.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
     this.closeTask = this.closeTask.bind(this);
   }
 
@@ -83,6 +93,9 @@ class Task extends React.Component {
     this.setState({ editing: !this.state.editing }, () => this.props.reload());
   }
 
+  handleClick(e) {
+    this.setState({ editing: !this.state.editing }, () => this.props.reload());
+  }
 
   render() {
     const { task } = this.props;
@@ -115,10 +128,27 @@ class Task extends React.Component {
         <Card
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
-          onDoubleClick={this.handleDoubleClick}
           style={style}
         >
-          <TaskInfo task={this.props.task} reload={this.props.reload} />
+          <div>
+            <CardContent style={{ padding: '5px', textAlign: 'center' }}>
+              <div sytle={{ position: 'fixed' }}>
+                {this.props.task.title}
+              </div>
+              <Button
+                size="small"
+                style={{
+                  position: 'relative', float: 'right', top: '-20px',  padding: '0', display: 'inline-block'
+                }}
+                onClick={this.handleClick}
+              >
+                <EditIcon />
+              </Button>
+              <div>
+                <Blockers reload={this.props.reload} blockers={this.props.task.blockers}/>
+              </div>
+            </CardContent>
+          </div>
         </Card>
       </div>
     );
