@@ -60,14 +60,14 @@ class AddSprint extends React.Component {
     if (this.state.status === 1) {
       interior = (
         <div>
-Saving...
+          Saving...
         </div>
       );
     }
     if (this.state.status === 2) {
       interior = (
         <div>
-Success!
+          Success!
         </div>
       );
       setTimeout(() => {
@@ -77,7 +77,7 @@ Success!
     if (this.state.status === 3) {
       interior = (
         <div>
-Failed to Save!
+        Failed to Save!
         </div>
       );
       setTimeout(() => {

@@ -19,7 +19,7 @@ class ChatWindow extends React.Component {
     
     this.socket.on('messages', allMessages => {
       this.setState({
-        messages: allMessages
+        messages: allMessages.reverse()
       })
     })
     
@@ -78,7 +78,8 @@ class ChatWindow extends React.Component {
         }}
       >
         <strong>Team Chat</strong>
-        <div 
+  
+        <div
           style={{
             margin: '10px 0px 10px 0px',
             border: '1px solid #D3D3D3',
@@ -89,8 +90,6 @@ class ChatWindow extends React.Component {
             flexDirection: "column-reverse"
           }}
         >
-
-        <div>
           {this.state.messages.map((message, index) => {
             if (message.user === this.state.user.username) {
               return (
@@ -100,7 +99,8 @@ class ChatWindow extends React.Component {
                     margin: '2px 2px 2px 2px',
                     padding: '2px 2px 2px 2px',
                     border: '1px solid #ed1a5c',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
+                    overflowWrap: 'pre-wrap'
                   }}
                 >
                   <a style={{ color: '#ed1a5c' }}>{message.user}: </a>
@@ -116,7 +116,8 @@ class ChatWindow extends React.Component {
                   margin: '2px 2px 2px 2px',
                   padding: '2px 2px 2px 2px',
                   border: '1px solid #808080',
-                  borderRadius: '5px'
+                  borderRadius: '5px',
+                  whiteSpace: 'pre-wrap'
                 }}
               >
                 <a style={{ color: '#808080' }}>{message.user}: </a>
@@ -126,7 +127,6 @@ class ChatWindow extends React.Component {
           })}
           </div>
 
-        </div>
         <form onSubmit={this.handleSubmit} >
           <TextField
             type="text" 
