@@ -81,8 +81,23 @@ class EditTaskForm extends React.Component {
   }
 
   commitChange(e) {
-    e.preventDefault();
-    this.setState({ commit: e.target.value });
+    // e.preventDefault();
+    // this.setState({ commit: e.target.value });
+    const context = this;
+    const value = e.target.value;
+    return api.getSprints().then(list => {
+      for (let i = 0; i < list.length; i++) {
+        console.log('list', list);
+        console.log('sprint id inside function', context.props.sprint_id);
+        if (list[i].id == context.props.sprint_id) {
+          console.log('inside if statement')
+          console.log('e target value', value);
+          context.setState({
+            commit: `${list[i].repo.slice(0,list[i].repo.length-4)}/commit/${value}`
+          })
+        }
+      }
+    })
   }
 
   descriptionChange(e) {
