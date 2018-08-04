@@ -67,7 +67,7 @@ class ChatWindow extends React.Component {
         </div>
         <form onSubmit={this.handleSubmit} >
           <input type="text" value={this.state.currentMessage} onChange={this.handleChange} />
-          <input type="submit" value="" />
+          <input type="submit" value="Send" />
         </form>
       </div>
     );
