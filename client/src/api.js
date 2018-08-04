@@ -135,7 +135,9 @@ module.exports = {
       .get('/users/sprint', {
         params: { sprint_id },
       })
-      .then(result => result.data)
+      .then(result => {
+        console.log('result data', result.data)
+        return result.data})
       .catch((err) => {
         console.log(err);
         return [];

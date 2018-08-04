@@ -146,8 +146,8 @@ const self = (module.exports = {
           .where({ id: result.sprint_id })
           .select()
           .first()
-          .then(({ id, title }) => {
-            solution.push({ id, title });
+          .then(({ id, title, repo }) => {
+            solution.push({ id, title, repo });
           }));
       });
 
