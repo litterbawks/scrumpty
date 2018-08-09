@@ -25,6 +25,7 @@ class AddTaskForm extends React.Component {
     this.difficultyChange = this.difficultyChange.bind(this);
     // this.etaChange = this.etaChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+
   }
 
   onSubmit(e) {
@@ -59,6 +60,7 @@ class AddTaskForm extends React.Component {
     this.setState({ difficulty: e.target.value });
   }
 
+
   render() {
     return (
       <div>
@@ -89,7 +91,9 @@ class AddTaskForm extends React.Component {
               <Button type="submit">
                 Save
               </Button>
-
+              <Button onClick={this.props.closeTask}>
+                Cancel
+              </Button>
             </div>
           </form>
         </CardContent>

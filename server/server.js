@@ -2,7 +2,9 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+// const actualPassport = require('passport');
 const { passport } = require('./passport');
+require('./passport').gitHubStrategy(passport)
 const tasks = require('./routes/tasks');
 const blockers = require('./routes/blockers');
 const users = require('./routes/users');
@@ -11,7 +13,7 @@ const sprints = require('./routes/sprints');
 const graphQLHTTP = require('express-graphql');
 const schema = require('./graphql/graphqlSchema');
 const logout = require('./routes/logout');
-const port = process.env.PORT || 1337;
+const port =  1337;
 
 
 // SETUP
@@ -21,6 +23,7 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: false, save
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // ENDPOINTS
 app.use('/tasks', tasks);
@@ -39,14 +42,25 @@ app.get('/test', (req, res) => {
 
 // sends a user object to the requester if one exists
 app.get('/verify', (req, res) => {
+  console.log('req user', req.user)
   if (req.user) {
     console.log('user is verified');
-    res.send({ id: req.user.id, username: req.user.username });
+    res.send({ 
+      id: req.user.id,
+      username: req.user.username,
+      firstname: req.user.firstname,
+      lastname: req.user.lastname,
+      preferred: req.user.preferred,
+      email: req.user.email,
+      phonenumber: req.user.phonenumber,
+      photo: req.user.photo
+    });
   } else {
     console.log('user is not verified');
     res.send(false);
   }
 });
+
 
 //graphql
 app.use('/graphql', graphQLHTTP({
@@ -60,4 +74,33 @@ app.get('*', (req, res) => {
   res.redirect('/');
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+const server = app.listen(port, () => console.log(`Listening on port ${port}`));
+
+// IMPLEMENT WEBSOCKET
+const io = require('socket.io')(server);
+
+const messages = {}; // IMPLEMENT REDIS TO REPLACE
+
+io.on('connection', (client) => {
+  console.log('a user connected to chat');
+
+  let chatroomName;
+
+  client.on('sprint_id', (sprint_id) => {
+    chatroomName = sprint_id;
+    if (!messages[chatroomName]) { messages[chatroomName] = [] };
+    client.join(chatroomName);
+    io.in(chatroomName).emit('messages', messages[chatroomName]);
+  })
+
+  client.on('message', (message) => {
+    console.log('message received handler fired');
+    console.log('message: ', message);
+    messages[chatroomName].push(message);
+    io.in(chatroomName).emit('messages', messages[chatroomName]);
+  });
+
+  client.on('disconnect', () => {
+    console.log('a user disconnected');
+  });
+});

@@ -11,8 +11,8 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 
- DROP DATABASE IF EXISTS testsprints;
- CREATE DATABASE testsprints;
+-- DROP DATABASE IF EXISTS sprints;
+-- CREATE DATABASE sprints;
 
 
 -- ---
@@ -20,7 +20,7 @@
 -- 
 -- ---
 
-USE testsprints;
+-- USE heroku_8a8425fd66d074c;
 
 
 DROP TABLE IF EXISTS `blockers`;
@@ -44,7 +44,6 @@ CREATE TABLE `tasks` (
   `id` INTEGER NOT NULL AUTO_INCREMENT,
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `sprint_id` INTEGER NOT NULL,
   `title` TEXT NOT NULL,
   `description` TEXT NOT NULL,
   `user_id` INTEGER DEFAULT NULL,
@@ -66,7 +65,11 @@ CREATE TABLE `users` (
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `username` TEXT NOT NULL,
   `password` TEXT NOT NULL,
-  `owner_id` INTEGER NOT NULL,
+  `firstname` TEXT NOT NULL,
+  `lastname` TEXT NOT NULL,
+  `preferred` TEXT NOT NULL,
+  `email` TEXT NOT NULL,
+  `phonenumber` TEXT NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -79,6 +82,7 @@ CREATE TABLE `sprints` (
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `title` TEXT NOT NULL,
+  `owner_id` INTEGER NOT NULL,
   PRIMARY KEY (`id`)
 );
 

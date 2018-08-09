@@ -17,8 +17,8 @@ module.exports = {
         return false;
       }),
 
-  addSprint: title => axios
-      .post('/sprints', { title })
+  addSprint: (title, repo) => axios
+      .post('/sprints', { title, repo })
       .then(result => result.data)
       .catch((err) => {
         console.log(err);
@@ -26,8 +26,8 @@ module.exports = {
       }),
 
   addTask: ({
- title, description, difficulty, priority_code, sprint_id 
-}) => axios
+    title, description, difficulty, priority_code, sprint_id 
+  }) => axios
       .post('/tasks', { title, description, sprint_id })
       .then(result => result.data)
       .catch((err) => {
@@ -77,8 +77,8 @@ module.exports = {
         return false;
       }),
 
-  addUser: (username, password) => axios
-      .post('/users', { username, password })
+  addUser: (username, password, firstname, lastname, preferred, email, phonenumber) => axios
+      .post('/users', { username, password, firstname, lastname, preferred, email, phonenumber })
       .then(resp => resp.data)
       .catch((err) => {
         console.log(err);
@@ -93,6 +93,18 @@ module.exports = {
         return false;
       }),
 
+  // loginGitHub: () => {
+  //     console.log('inside api file'); 
+  //     axios
+  //     .get('/login/auth/github/callback')
+  //     .then(resp => {
+  //       console.log('resp', resp)
+  //       resp.data})
+  //     .catch(err => {
+  //       console.log(err);
+  //       return false;
+  //     })},  
+
   logout: () => axios
       .get('/logout')
       .then(resp => resp.data)
@@ -105,7 +117,9 @@ module.exports = {
 
   verify: () => axios
       .get('/verify')
-      .then(resp => resp.data)
+      .then(resp => {
+        return resp.data
+      })
       .catch((err) => {
         console.log(err);
         return false;
@@ -123,7 +137,9 @@ module.exports = {
       .get('/users/sprint', {
         params: { sprint_id },
       })
-      .then(result => result.data)
+      .then(result => {
+        console.log('result data', result.data)
+        return result.data})
       .catch((err) => {
         console.log(err);
         return [];

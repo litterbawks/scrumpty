@@ -11,6 +11,7 @@ class AddUserToSprintForm extends React.Component {
     super(props);
     this.state = {
       sprint_id: props.sprint_id,
+      repo: '',
       username: "",
       users: [],
       status: 0 // display what when the menu is showing? 0 - not submitted, 1 - pending, 2 - success, 3 - failed
@@ -20,6 +21,13 @@ class AddUserToSprintForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.reload = this.reload.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
+  }
+
+  componentDidMount() {
+    this.findSprint(this.props.sprintList);
+    setInterval(() => {
+      this.findSprint(this.props.sprintList);
+    }, 1000);
   }
 
   deleteUser(user_id) {
@@ -40,20 +48,35 @@ class AddUserToSprintForm extends React.Component {
 
   componentWillUpdate(nextProps) {
     if (nextProps.sprint_id !== this.state.sprint_id) {
-      this.setState({ sprint_id: nextProps.sprint_id, users: [] }, () =>
+      this.setState({ sprint_id: nextProps.sprint_id, users: []}, () =>
         this.reload()
       );
     }
   }
 
+  findSprint(list) {
+    for (let i = 0; i < list.length; i++) {
+      if (list[i].id == this.state.sprint_id) {
+        this.setState({
+          repo: list[i].repo
+        })
+      }
+    }
+  }
+
+
+  
   componentWillMount() {
     this.reload();
   }
-
+  
   reload() {
     api
-      .getUsersInSprint(this.state.sprint_id)
-      .then(users => this.setState({ users }));
+    .getUsersInSprint(this.state.sprint_id)
+    .then(users => {console.log('users', users); this.setState({ users })});
+    
+    // this.findSprint(this.props.sprintList);
+    
   }
 
   onSubmit(e) {
@@ -83,13 +106,12 @@ class AddUserToSprintForm extends React.Component {
 
   render() {
     let interior = (
-      <div>
+      <div style={{textAlign: "center"}}>
         <TextField
           required
           id="user"
           label="Username"
           value={this.state.username}
-          margin="normal"
           onChange={this.userChange}
         />
         <Button type="submit">Add Team Member</Button>
@@ -114,35 +136,67 @@ class AddUserToSprintForm extends React.Component {
     return (
       <div
         style={{
-          padding: "1.5em"
+          padding: "1.5em",
+          textAlign: 'center',
+          height: "20em"
         }}
       >
-        <div>
-          <strong>Team Members</strong>
+
+        <div
+          style={{
+            height: "4.5em"
+          }}
+        >
+          <strong>GitHub Repo</strong>
+          <div 
+            style={{
+              whiteSpace: "nowrap",
+              overflowX: "auto",
+              width: "250px"
+            }}
+          >
+            <a href={this.state.repo}>{this.state.repo}</a>
+          </div>
         </div>
-        <hr />
         <div>
-          {this.state.users.map((user, i) => (
-            <div key={i}>
-              {`${user.username}  `}
-              {this.props.isOwner &&
-                user.id !== this.props.user.id && (
-                  <button
-                    style={{ float: "right" }}
-                    onClick={() => this.deleteUser(user.id)}
-                  >
-                    X
-                  </button>
-                )}
-              <hr />
-            </div>
-          ))}
+          <div>
+            <strong>Team Members</strong>
+          </div>
+          <div 
+            style={{
+              height: '5em',
+              overflowY: "auto",
+              border: '1px solid #D3D3D3'
+            }}
+          >
+            {this.state.users.map((user, i) => (
+              <div key={i}>
+                {`${user.username}`}
+                {this.props.isOwner &&
+                  user.id !== this.props.user.id && (
+                    <button
+                      style={{ float: "right" }}
+                      onClick={() => this.deleteUser(user.id)}
+                    >
+                      X
+                    </button>
+                  )}
+              </div>
+            ))}
+          </div>
+          {this.props.isOwner && (
+            <form
+              style={{ 
+                width: "130px",
+                marginLeft: "auto",
+                marginRight: "auto"
+              }}
+              onSubmit={this.onSubmit}
+            >
+              {interior}
+            </form>
+          )}
         </div>
-        {this.props.isOwner && (
-          <form style={{ width: "150px" }} onSubmit={this.onSubmit}>
-            {interior}
-          </form>
-        )}
       </div>
     );
   }

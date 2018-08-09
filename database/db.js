@@ -27,6 +27,7 @@ const self = (module.exports = {
   updateTask: ({
     id,
     title,
+    commit,
     description,
     user_id,
     status_code,
@@ -37,6 +38,7 @@ const self = (module.exports = {
     .where('id', id)
     .update({
       title,
+      commit,
       description,
       user_id,
       status_code,
@@ -74,12 +76,18 @@ const self = (module.exports = {
       .select())
     .then(blockers => blockers[0]),
 
-  addUser: (username, password) => knex('users')
-    .insert({ username, password })
+  addUser: (username, password, firstname, lastname, preferred, email, phonenumber) => {
+    console.log('inside db addUser function')
+    knex('users')
+    .insert({ username, password, firstname, lastname, preferred, email, phonenumber })
     .then(id => knex('users')
       .where('id', id)
       .select())
-    .then(users => users[0]),
+    .then(users => {
+      console.log('users 0', users[0])
+      users[0]
+    }
+  )},
 
   getUsers: () => knex('users')
     .select()
@@ -89,11 +97,13 @@ const self = (module.exports = {
     .where('username', username)
     .select()
     .first(),
+
   userHasPassword: (username, password) => knex('users')
     .where({ username, password })
     .select()
     .first(),
 
+    /////////////////////////////////////////////////////////////////////
   updateUser: (username, password) => knex('users')
     .where('username', username)
     .select()
@@ -105,18 +115,21 @@ const self = (module.exports = {
       .select())
     .then(users => users[0]),
 
+    ////////////////////////////////////////////////////////////////
   getUserByName: username => knex('users')
     .where('username', username)
     .select()
     .then(users => users[0]),
 
+
+////////////////////////////////////////////////////////////////////
   getUserById: id => knex('users')
     .where('id', id)
     .select()
     .then(users => users[0]),
 
-  addSprint: (title, owner_id) => knex('sprints')
-    .insert({ title, owner_id })
+  addSprint: (title, owner_id, repo) => knex('sprints')
+    .insert({ title, owner_id, repo })
     .then(id => knex('sprints')
       .where('id', id)
       .select())
@@ -133,8 +146,8 @@ const self = (module.exports = {
           .where({ id: result.sprint_id })
           .select()
           .first()
-          .then(({ id, title }) => {
-            solution.push({ id, title });
+          .then(({ id, title, repo }) => {
+            solution.push({ id, title, repo });
           }));
       });
 

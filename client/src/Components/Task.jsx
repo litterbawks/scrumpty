@@ -2,22 +2,46 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Blockers from './Blockers.jsx';
-import { PRIORITY_COLOR } from '../../../lib/shared';
+import { PRIORITY_COLOR, itemTypes } from '../../../lib/shared';
 import EditTaskForm from './EditTaskForm.jsx';
+import { DragSource } from 'react-dnd';
+import api from '../api.js'
+import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 
+const cardSource = {
+  canDrag(props){
+    return true
+  },
 
-const TaskInfo = ({ task, reload }) => (
-  <div>
-    <CardContent style={{ padding: '5px', textAlign: 'center' }}>
-      <div>
-        {task.title}
-      </div>
-      <div>
-        <Blockers reload={reload} blockers={task.blockers} />
-      </div>
-    </CardContent>
-  </div>
-);
+  beginDrag(props, monitor, component){
+    const item = { task : props.task };
+    console.log(item)
+    console.log(component)
+    return item
+  },
+
+  isDragging(props, monitor){
+    console.log('isDragging')
+    console.log(props)
+    console.log(monitor)
+    return monitor.getItem().task.status_code === props.status_code
+
+  },
+
+  endDrag(props, monitor, component){
+    const dropResult = monitor.getDropResult();
+    console.log(dropResult)
+  }
+
+}
+
+function collect(connect, monitor){
+  return {
+    connectDragSource : connect.dragSource(),
+    isDragging : monitor.isDragging()
+  }
+}
 
 class Task extends React.Component {
   constructor(props) {
@@ -26,7 +50,7 @@ class Task extends React.Component {
     this.onMouseOut = this.onMouseOut.bind(this);
     this.onMouseOver = this.onMouseOver.bind(this);
     this.handleDoubleClick = this.handleDoubleClick.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
     this.closeTask = this.closeTask.bind(this);
   }
 
@@ -46,11 +70,15 @@ class Task extends React.Component {
     this.setState({ editing: !this.state.editing }, () => this.props.reload());
   }
 
+  handleClick(e) {
+    this.setState({ editing: !this.state.editing }, () => this.props.reload());
+  }
 
   render() {
     const { task } = this.props;
     const borderColor = PRIORITY_COLOR[task.priority_code];
 
+    const { isDragging, connectDragSource } = this.props;
     const style = {
       borderRadius: '10px',
       margin: '10px',
@@ -72,19 +100,36 @@ class Task extends React.Component {
       );
     }
 
-    return (
+    return connectDragSource(
       <div>
         <Card
           onMouseOver={this.onMouseOver}
           onMouseOut={this.onMouseOut}
-          onDoubleClick={this.handleDoubleClick}
           style={style}
         >
-          <TaskInfo task={this.props.task} reload={this.props.reload} />
+          <div>
+            <CardContent style={{ padding: '5px', textAlign: 'center' }}>
+              <div sytle={{ position: 'fixed' }}>
+                {this.props.task.title}
+              </div>
+              <Button
+                size="small"
+                style={{
+                  position: 'relative', float: 'right', top: '-20px',  padding: '0', display: 'inline-block'
+                }}
+                onClick={this.handleClick}
+              >
+                <EditIcon />
+              </Button>
+              <div>
+                <Blockers reload={this.props.reload} blockers={this.props.task.blockers}/>
+              </div>
+            </CardContent>
+          </div>
         </Card>
       </div>
     );
   }
 }
 
-export default Task;
+export default DragSource(itemTypes.TASK, cardSource, collect)(Task);

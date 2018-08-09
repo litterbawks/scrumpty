@@ -7,6 +7,9 @@ import Tasks from "./Tasks.jsx";
 import api from "../api";
 import AddTaskButton from "./AddTaskButton.jsx";
 import AddUserToSprintForm from "./AddUserToSprintForm.jsx";
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+import ChatWindow from "./ChatWindow.jsx";
 
 class Sprint extends React.Component {
   constructor(props) {
@@ -17,10 +20,12 @@ class Sprint extends React.Component {
       isOwner: false,
       open: false,
       tasks: []
+      // repo: ''
     };
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.reload = this.reload.bind(this);
+    // this.findSprint = this.findSprint.bind(this);
   }
 
   componentWillMount() {
@@ -28,6 +33,7 @@ class Sprint extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
+    console.log('match', nextProps.match.params)
     if (nextProps.match.params.id !== this.state.sprint_id) {
       this.setState({ sprint_id: nextProps.match.params.id }, () =>
         this.reload()
@@ -52,6 +58,7 @@ class Sprint extends React.Component {
       if (!res) {
         this.setState({ isOwner: false });
       } else {
+        console.log('res', res);
         this.setState({ isOwner: true });
       }
     });
@@ -59,12 +66,15 @@ class Sprint extends React.Component {
 
   handleClose(shouldReload = false) {
     this.setState({
-      open: false
+      open: false,
     });
     if (shouldReload) {
       this.reload();
     }
   }
+
+  
+    
 
   render() {
     const tasks = this.state.tasks;
@@ -88,6 +98,12 @@ class Sprint extends React.Component {
       fontWeight: 'lighter'
     };
 
+    const { user, sprintList } = this.props;
+    
+
+    // findSprint(sprintList);
+    // console.log('temp', temp);
+
     return (
       <div onClick={this.closeEdits}>
         <Drawer variant="permanent" anchor="right">
@@ -95,9 +111,17 @@ class Sprint extends React.Component {
             user={this.props.user}
             isOwner={this.state.isOwner}
             sprint_id={this.state.sprint_id}
+            sprintList={sprintList}
+
           />
+          <ChatWindow
+            user={this.props.user}
+            isOwner={this.state.isOwner}
+            sprint_id={this.state.sprint_id}
+          />
+
         </Drawer>
-        <Paper style={{ marginRight: "13.5em", marginLeft: "1em" }}>
+        <Paper style={{ marginRight: "20em", marginLeft: "1em" }}>
           <Grid
             style={{ padding: "1em" }}
             container
@@ -105,11 +129,12 @@ class Sprint extends React.Component {
             justify="center"
           >
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>Todo</strong>
               <Tasks
+                title={"Todo"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={notStarted}
+                loc = {0}
               />
               <Grid container style={{ textAlign: "center" }}>
                 <AddTaskButton
@@ -119,19 +144,21 @@ class Sprint extends React.Component {
               </Grid>
             </Grid>
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>In Progress</strong>
               <Tasks
+                title = {"In Progress"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={inProgress}
+                loc = {1}
               />
             </Grid>
             <Grid item xs={4}>
-              <strong style={taskIndicatorStyle}>Completed</strong>
               <Tasks
+                title={"Completed"}
                 sprint_id={this.state.sprint_id}
                 reload={this.reload}
                 tasks={complete}
+                loc = {2}
               />
             </Grid>
           </Grid>
@@ -141,4 +168,5 @@ class Sprint extends React.Component {
   }
 }
 
-export default Sprint;
+export default DragDropContext(HTML5Backend)(Sprint);
+

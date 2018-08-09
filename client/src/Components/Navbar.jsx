@@ -20,6 +20,7 @@ class Navbar extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleAcctClick = this.handleAcctClick.bind(this);
     this.handleAcctClose = this.handleAcctClose.bind(this);
+    this.redirectToProfile = this.redirectToProfile.bind(this);
   }
 
   handleChange(event) {
@@ -43,6 +44,10 @@ class Navbar extends Component {
   }
 
   handleGraphiQL() {
+  }
+
+  redirectToProfile() {
+    // REDIRECT TO PROFILE
   }
 
   render() {
@@ -123,13 +128,14 @@ class Navbar extends Component {
                 color="inherit"
                 aria-owns={accountEl ? 'simple-menu' : null}
                 aria-haspopup="true"
-                onClick={this.handleAcctClick}
+                // onClick={this.handleAcctClick}
+                onClick={this.redirectToProfile}
                 label="account"
               >
                 My Account
                 <i className="fa fa-user-circle" style={{marginLeft: '8px'}} aria-hidden="true"></i>
               </Button>
-              <Menu
+              {/* <Menu
                 id="simple-menu"
                 anchorEl={accountEl}
                 open={Boolean(accountEl)}
@@ -145,8 +151,8 @@ class Navbar extends Component {
                   Change Password
 
                   </MenuItem>
-              </Menu>
-              <Button
+              </Menu> */}
+              {/* <Button
                 color="inherit"
                 aria-owns={anchorEl ? 'simple-menu' : null}
                 aria-haspopup="true"
@@ -154,7 +160,7 @@ class Navbar extends Component {
                 label="graphql"
               >
                 GraphQL
-              </Button>
+              </Button> */}
               <Button
                 color="inherit"
                 aria-owns={anchorEl ? 'simple-menu' : null}
