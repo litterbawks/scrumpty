@@ -137,7 +137,7 @@ class EditTaskForm extends React.Component {
               <TextField required id="description" label="Description" value={this.state.description} margin="normal" onChange={this.descriptionChange} />
             </div>
             <div>
-              <TextField required id="commit" label="Proof of Completion" margin="normal" defaultValue={this.state.commit} onChange={this.commitChange} />
+              <TextField id="commit" label="Proof of Completion" margin="normal" defaultValue={this.state.commit} onChange={this.commitChange} />
             </div>
 
             <TextField id="priority" select label="Priority" value={this.state.priority_code} onChange={this.priorityChange} margin="normal">

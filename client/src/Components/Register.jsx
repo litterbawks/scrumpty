@@ -85,19 +85,19 @@ class Register extends React.Component {
             <TextField required type="password" id="password" label="Password" value={this.state.password} margin="normal" onChange={this.handlePasswordChange} />
           </div>
           <div>
-            <TextField required id="firstname" label="First Name" value={this.state.firstname} margin="normal" onChange={this.handleFirstNameChange} />
+            <TextField required  id="firstname" label="First Name" value={this.state.firstname} margin="normal" onChange={this.handleFirstNameChange} />
           </div>
           <div>
-            <TextField required id="lastname" label="Last Name" value={this.state.lastname} margin="normal" onChange={this.handleLastNameChange} />
+            <TextField required  id="lastname" label="Last Name" value={this.state.lastname} margin="normal" onChange={this.handleLastNameChange} />
           </div>
           <div>
             <TextField required id="preferred" label="Preferred Name" value={this.state.preferred} margin="normal" onChange={this.handlePreferredChange} />
           </div>
           <div>
-            <TextField required id="email" label="Email" value={this.state.email} margin="normal" onChange={this.handleEmailChange} />
+            <TextField required  id="email" label="Email" value={this.state.email} margin="normal" onChange={this.handleEmailChange} />
           </div>
           <div>
-            <TextField required id="phonenumber" label="Phone Number" value={this.state.phonenumber} margin="normal" onChange={this.handlePhoneNumberChange} />
+            <TextField required  id="phonenumber" label="Phone Number" value={this.state.phonenumber} margin="normal" onChange={this.handlePhoneNumberChange} />
           </div>
           <div id="registerformmessage" style={{ height: '20px' }}>
             {this.state.errormessage}
@@ -112,7 +112,7 @@ Register
         OR
         <br />
         <Button>
-        <a href="http://localhost:1337/users/auth/github/">Login With GitHub</a>
+        <a href="http://142.93.86.53/users/auth/github/">Login With GitHub</a>
         </Button>
 
       </div>
